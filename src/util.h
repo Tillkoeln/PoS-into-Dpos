@@ -18,6 +18,15 @@
 #include <vector>
 #include <string>
 
+#include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/date_time/gregorian/gregorian_types.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+
+#include <openssl/sha.h>
+#include <openssl/ripemd.h>
+
 #include "netbase.h" // for AddTimeData
 
 // to obtain PRId64 on some old systems
@@ -25,15 +34,6 @@
 
 #include <stdint.h>
 #include <inttypes.h>
-
-#include <openssl/sha.h>
-#include <openssl/ripemd.h>
-
-#include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/date_time/gregorian/gregorian_types.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
 
 static const int64_t COIN = 100000000;
 static const int64_t CENT = 1000000;

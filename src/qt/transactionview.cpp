@@ -43,8 +43,13 @@ TransactionView::TransactionView(QWidget *parent) :
     hlayout->addSpacing(26);
 #else
     hlayout->setSpacing(0);
-    hlayout->addSpacing(23);
+    hlayout->addSpacing(0);
 #endif
+
+    QLineEdit *blank = new QLineEdit(this);
+    blank->setReadOnly(true);
+    blank->setObjectName("blackboxBlank");
+    hlayout->addWidget(blank);
 
     dateWidget = new QComboBox(this);
 #ifdef Q_OS_MAC
@@ -80,6 +85,7 @@ TransactionView::TransactionView(QWidget *parent) :
     hlayout->addWidget(typeWidget);
 
     addressWidget = new QLineEdit(this);
+    addressWidget->setObjectName("blackBoxAddress");
 #if QT_VERSION >= 0x040700
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
     addressWidget->setPlaceholderText(tr("Enter address or label to search"));
@@ -87,6 +93,7 @@ TransactionView::TransactionView(QWidget *parent) :
     hlayout->addWidget(addressWidget);
 
     amountWidget = new QLineEdit(this);
+    amountWidget->setObjectName("blackboxAmount");
 #if QT_VERSION >= 0x040700
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
     amountWidget->setPlaceholderText(tr("Min amount"));

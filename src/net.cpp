@@ -373,7 +373,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
 
             pszGet = "GET / HTTP/1.1\r\n"
                      "Host: checkip.dyndns.org\r\n"
-                     "User-Agent: Adderalcoin\r\n"
+                     "User-Agent: VirtuaCash\r\n"
                      "Connection: close\r\n"
                      "\r\n";
 
@@ -392,7 +392,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
 
             pszGet = "GET /simple/ HTTP/1.1\r\n"
                      "Host: www.showmyip.com\r\n"
-                     "User-Agent: Adderalcoin\r\n"
+                     "User-Agent: VirtuaCash\r\n"
                      "Connection: close\r\n"
                      "\r\n";
 
@@ -409,7 +409,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
 void ThreadGetMyExternalIP(void* parg)
 {
     // Make this thread recognisable as the external IP detection thread
-    RenameThread("adderalcoin-ext-ip");
+    RenameThread("VirtuaCash-ext-ip");
 
     CNetAddr addrLocalHost;
     if (GetMyExternalIP(addrLocalHost))
@@ -634,7 +634,7 @@ void CNode::copyStats(CNodeStats &stats)
 void ThreadSocketHandler(void* parg)
 {
     // Make this thread recognisable as the networking thread
-    RenameThread("adderalcoin-net");
+    RenameThread("VirtuaCash-net");
 
     try
     {
@@ -988,7 +988,7 @@ void ThreadSocketHandler2(void* parg)
 void ThreadMapPort(void* parg)
 {
     // Make this thread recognisable as the UPnP thread
-    RenameThread("adderalcoin-UPnP");
+    RenameThread("VirtuaCash-UPnP");
 
     try
     {
@@ -1049,7 +1049,7 @@ void ThreadMapPort2(void* parg)
             }
         }
 
-        string strDesc = "Adderalcoin " + FormatFullVersion();
+        string strDesc = "VirtuaCash " + FormatFullVersion();
 #ifndef UPNPDISCOVER_SUCCESS
         /* miniupnpc 1.5 */
         r = UPNP_AddPortMapping(urls.controlURL, data.first.servicetype,
@@ -1127,18 +1127,26 @@ void MapPort()
 #endif
 
 
+
+
+
+
+
+
+
 // DNS seeds
 // Each pair gives a source name and a seed name.
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
 static const char *strDNSSeed[][2] = {
-		    	{"64.90.187.238", "64.90.187.238"},
+    {"104.131.203.30", "104.131.203.30"}, //Main VirtuaCash Seed Node
+    {"178.62.175.163", "178.62.175.163"},
 };
 
 void ThreadDNSAddressSeed(void* parg)
 {
     // Make this thread recognisable as the DNS seeding thread
-    RenameThread("adderalcoin-dnsseed");
+    RenameThread("VirtuaCash-dnsseed");
 
     try
     {
@@ -1240,7 +1248,7 @@ void ThreadDumpAddress2(void* parg)
 void ThreadDumpAddress(void* parg)
 {
     // Make this thread recognisable as the address dumping thread
-    RenameThread("adderalcoin-adrdump");
+    RenameThread("VirtuaCash-adrdump");
 
     try
     {
@@ -1255,7 +1263,7 @@ void ThreadDumpAddress(void* parg)
 void ThreadOpenConnections(void* parg)
 {
     // Make this thread recognisable as the connection opening thread
-    RenameThread("adderalcoin-opencon");
+    RenameThread("VirtuaCash-opencon");
 
     try
     {
@@ -1436,7 +1444,7 @@ void ThreadOpenConnections2(void* parg)
 void ThreadOpenAddedConnections(void* parg)
 {
     // Make this thread recognisable as the connection opening thread
-    RenameThread("adderalcoin-opencon");
+    RenameThread("VirtuaCash-opencon");
 
     try
     {
@@ -1567,7 +1575,7 @@ bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOu
 void ThreadMessageHandler(void* parg)
 {
     // Make this thread recognisable as the message handling thread
-    RenameThread("adderalcoin-msghand");
+    RenameThread("VirtuaCash-msghand");
 
     try
     {
@@ -1735,7 +1743,7 @@ bool BindListenPort(const CService &addrBind, string& strError)
     {
         int nErr = WSAGetLastError();
         if (nErr == WSAEADDRINUSE)
-            strError = strprintf(_("Unable to bind to %s on this computer. Adderalcoin is probably already running."), addrBind.ToString().c_str());
+            strError = strprintf(_("Unable to bind to %s on this computer. VirtuaCash is probably already running."), addrBind.ToString().c_str());
         else
             strError = strprintf(_("Unable to bind to %s on this computer (bind returned error %d, %s)"), addrBind.ToString().c_str(), nErr, strerror(nErr));
         printf("%s\n", strError.c_str());
@@ -1818,7 +1826,7 @@ void static Discover()
 void StartNode(void* parg)
 {
     // Make this thread recognisable as the startup thread
-    RenameThread("adderalcoin-start");
+    RenameThread("VirtuaCash-start");
 
     if (semOutbound == NULL) {
         // initialize semaphore

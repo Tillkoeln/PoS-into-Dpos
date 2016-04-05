@@ -4,16 +4,21 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 
+
 class TransactionTableModel;
 class ClientModel;
 class WalletModel;
 class TransactionView;
 class OverviewPage;
+class BlockBrowser;
 class AddressBookPage;
 class SendCoinsDialog;
 class SignVerifyMessageDialog;
 class Notificator;
 class RPCConsole;
+class ActionButton;
+class CloudMining;
+class VirtuaCashPage;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -60,12 +65,15 @@ private:
     QStackedWidget *centralWidget;
 
     OverviewPage *overviewPage;
+	BlockBrowser *blockBrowser;
     QWidget *transactionsPage;
     AddressBookPage *addressBookPage;
     AddressBookPage *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
     SignVerifyMessageDialog *signVerifyMessageDialog;
-
+    CloudMining *cloudMining;
+	VirtuaCashPage *virtuacashPage;
+	
     QLabel *labelEncryptionIcon;
     QLabel *labelStakingIcon;
     QLabel *labelConnectionsIcon;
@@ -75,6 +83,9 @@ private:
 
     QMenuBar *appMenuBar;
     QAction *overviewAction;
+    QAction *cloudMiningAction;
+	QAction *blockAction;
+	QAction *virtuacashAction;
     QAction *historyAction;
     QAction *quitAction;
     QAction *sendCoinsAction;
@@ -94,6 +105,8 @@ private:
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
 
+    ActionButton* actionButton;
+
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
     TransactionView *transactionView;
@@ -107,8 +120,12 @@ private:
     void createMenuBar();
     /** Create the toolbars */
     void createToolBars();
+    void _addButtonInToolbar(QAction *action,QToolBar *toolbar);
+
     /** Create system tray (notification) icon */
     void createTrayIcon();
+
+
 
 public slots:
     /** Set number of connections shown in the UI */
@@ -137,6 +154,8 @@ public slots:
 private slots:
     /** Switch to overview (home) page */
     void gotoOverviewPage();
+	/** Switch to block explorer*/
+    void gotoBlockBrowser();
     /** Switch to history (transactions) page */
     void gotoHistoryPage();
     /** Switch to address book page */
@@ -145,6 +164,9 @@ private slots:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage();
+	void gotoVirtuaCashPage();
+    /** Switch to  Cloud Mining page */
+    void gotoCloudMiningPage();
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");
@@ -181,6 +203,8 @@ private slots:
     void toggleHidden();
 
     void updateStakingIcon();
+
+    void applyTheme(QString name="default");
 };
 
 #endif

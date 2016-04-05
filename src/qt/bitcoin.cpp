@@ -7,6 +7,7 @@
 #include "optionsmodel.h"
 #include "guiutil.h"
 #include "guiconstants.h"
+//#include "QtWaitingSpinner.h"
 
 #include "init.h"
 #include "ui_interface.h"
@@ -19,6 +20,9 @@
 #include <QTranslator>
 #include <QSplashScreen>
 #include <QLibraryInfo>
+#include <QHBoxLayout>
+#include <QLabel>
+//#include <QMovie>
 
 #if defined(BITCOIN_NEED_QT_PLUGINS) && !defined(_BITCOIN_QT_PLUGINS_INCLUDED)
 #define _BITCOIN_QT_PLUGINS_INCLUDED
@@ -83,7 +87,7 @@ static void InitMessage(const std::string &message)
 {
     if(splashref)
     {
-        splashref->showMessage(QString::fromStdString(message), Qt::AlignBottom|Qt::AlignHCenter, QColor(232,186,63));
+        splashref->showMessage(QString::fromStdString(message), Qt::AlignBottom|Qt::AlignHCenter, QColor("#000000"));
         QApplication::instance()->processEvents();
     }
 }
@@ -106,7 +110,7 @@ static std::string Translate(const char* psz)
 static void handleRunawayException(std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
-    QMessageBox::critical(0, "Runaway exception", BitcoinGUI::tr("A fatal error occurred. Adderalcoin can no longer continue safely and will quit.") + QString("\n\n") + QString::fromStdString(strMiscWarning));
+    QMessageBox::critical(0, "Runaway exception", BitcoinGUI::tr("A fatal error occurred. VirtuaCash can no longer continue safely and will quit.") + QString("\n\n") + QString::fromStdString(strMiscWarning));
     exit(1);
 }
 
@@ -136,7 +140,7 @@ int main(int argc, char *argv[])
     {
         // This message can not be translated, as translation is not initialized yet
         // (which not yet possible because lang=XX can be overridden in bitcoin.conf in the data directory)
-        QMessageBox::critical(0, "Adderalcoin",
+        QMessageBox::critical(0, "VirtuaCash",
                               QString("Error: Specified data directory \"%1\" does not exist.").arg(QString::fromStdString(mapArgs["-datadir"])));
         return 1;
     }
@@ -144,12 +148,12 @@ int main(int argc, char *argv[])
 
     // Application identification (must be set before OptionsModel is initialized,
     // as it is used to locate QSettings)
-    app.setOrganizationName("Adderalcoin");
+    app.setOrganizationName("VirtuaCash");
     //XXX app.setOrganizationDomain("");
     if(GetBoolArg("-testnet")) // Separate UI settings for testnet
-        app.setApplicationName("Adderalcoin-Qt-testnet");
+        app.setApplicationName("VirtuaCash-Qt-testnet");
     else
-        app.setApplicationName("Adderalcoin-Qt");
+        app.setApplicationName("VirtuaCash-Qt");
 
     // ... then GUI settings:
     OptionsModel optionsModel;
@@ -189,7 +193,8 @@ int main(int argc, char *argv[])
     uiInterface.QueueShutdown.connect(QueueShutdown);
     uiInterface.Translate.connect(Translate);
 
-    // Show help message immediately after parsing command-line options (for "-lang") and setting locale,
+    // Show help message immediately after parsing command-line options (for "-lang")
+    // and setting locale,
     // but before showing splash screen.
     if (mapArgs.count("-?") || mapArgs.count("--help"))
     {
@@ -198,7 +203,9 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    QSplashScreen splash(QPixmap(":/images/splash"), 0);
+
+    QSplashScreen splash(QPixmap(":/default/res/images/splash.png"));
+
     if (GetBoolArg("-splash", true) && !GetBoolArg("-min"))
     {
         splash.show();
@@ -226,7 +233,9 @@ int main(int argc, char *argv[])
                 optionsModel.Upgrade(); // Must be done after AppInit2
 
                 if (splashref)
+                {
                     splash.finish(&window);
+                }
 
                 ClientModel clientModel(&optionsModel);
                 WalletModel walletModel(pwalletMain, &optionsModel);
